@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 # Lab01 node setup script
 
+# Create ops user
+adduser ops
+echo "ops:ops2018" | chpasswd
+usermod -aG wheel ops
+
+# Allow ssh login via password
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+systemctl restart sshd
+
 # Install Docker CE
 yum install -y \
   yum-utils \
@@ -39,10 +48,11 @@ ExecStart=/bin/docker run \
   --name greetingd \
   --env-file /etc/greetingd/greetingd.conf \
   -v /var/log/greetingd:/var/log/greetingd \
-  "${GREETINGD_DOCKER_IMAGE}"
+  "\${GREETINGD_DOCKER_IMAGE}"
 
 # Stop
-ExecStop=/bin/docker stop greetingd && /bin/docker rm -f greetingd
+ExecStop=/bin/docker stop greetingd
+ExecStopPost=/bin/docker rm -f greetingd
 
 # Auto restart
 Restart=always
