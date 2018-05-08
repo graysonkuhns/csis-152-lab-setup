@@ -4,9 +4,10 @@
 log_file="${LOGGING_DIRECTORY}/greetingd.log"
 touch "${log_file}"
 
-# Log the greeting messages
-while true
-do
+greet() {
   sleep "${GREETING_INTERVAL}"
   echo "[$(date -u)] ${GREETING_MESSAGE}" >> "${log_file}"
-done
+  greet
+}
+
+greet
