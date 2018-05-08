@@ -1,4 +1,4 @@
-# Lab02 Setup
+# Lab07 Setup
 
 ``` bash
 # Create ops user
