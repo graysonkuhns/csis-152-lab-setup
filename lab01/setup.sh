@@ -42,8 +42,7 @@ ExecStart=/bin/docker run \
   "${GREETINGD_DOCKER_IMAGE}"
 
 # Stop
-ExecStop=/bin/docker stop greetingd
-ExecPostStop=/bin/docker rm -f greetingd
+ExecStop=/bin/docker stop greetingd && /bin/docker rm -f greetingd
 
 # Auto restart
 Restart=always
